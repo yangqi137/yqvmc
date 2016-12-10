@@ -7,11 +7,11 @@
 
 namespace yqvmc { namespace ci {
   struct Magnetization {
-    typedef double value_type;
+    typedef double result_type;
 
     template <typename Conf>
-    value_type measure(const Conf& conf, std::size_t stamp = 0) {
-      value_type m = 0.;
+    result_type measure(const Conf& conf, std::size_t stamp = 0) {
+      result_type m = 0.;
       for (bool s : conf) m += (s ? +1. : -1.);
       return std::abs(m / conf.size());
     }

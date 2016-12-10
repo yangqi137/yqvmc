@@ -48,6 +48,10 @@ namespace yqvmc {
     boost::accumulators::accumulator_set<result_type, stats> m_acc2;
   };
 
+  struct BinCollectorEmpty {
+    void collect(std::size_t iBin) {}
+  };
+
 }
 
 #endif
