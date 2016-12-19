@@ -15,35 +15,42 @@ namespace yqvmc {
     template <typename Configuration,
 	      typename Walker,
 	      typename RG,
-        typename BinCollector,
-	      typename... Measures>
+	      typename... Observers>
     void run(Configuration& conf, Walker& walker, RG& g,
-             BinCollector& binCol, Measures&... measures) const {
+             Observers&... observers) const {
       if (m_warmup>0)
           for (std::size_t i=0; i<m_warmup; i++)
               walker.walk(conf, g);
 
       for (std::size_t ibin = 0; ibin < m_nbins; ibin++) {
         for (std::size_t i = 0; i < m_binsize; i++) {
-          measure(conf, i, measures...);
+          measure(conf, i+1, observers...);
           walker.walk(conf, g);
           if (m_skip > 0)
             for (std::size_t j=0; j < m_skip; j++)
               walker.walk(conf, g);
         }
-        binCol.collect(ibin);
+        closeBin(ibin, observers...);
       }
     }
 
   private:
     template <typename Configuration>
     static void measure(const Configuration& conf, std::size_t stamp) {}
-    template <typename Configuration, typename Measure,
-	      typename... OtherMeasures>
+    template <typename Configuration, typename Observer,
+	      typename... OtherObservers>
     static void measure(const Configuration& conf, std::size_t stamp,
-       Measure& m, OtherMeasures&... otherMeasures) {
-      m.measure(conf, stamp);
-      measure(conf, stamp, otherMeasures...);
+       Observer& o, OtherObservers&... otherObservers) {
+      o.measure(conf, stamp);
+      measure(conf, stamp, otherObservers...);
+    }
+
+    static void closeBin(std::size_t ibin) {}
+    template <typename Observer, typename... OtherObservers>
+    static void closeBin(std::size_t ibin, Observer& o,
+      OtherObservers&... otherObservers) {
+      o.closeBin(ibin);
+      closeBin(ibin, otherObservers...);
     }
   };
 

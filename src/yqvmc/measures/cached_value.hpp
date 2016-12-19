@@ -2,7 +2,6 @@
 #define YQVMC_MEASURES_CACHED_VALUE_HPP
 
 #include <cstddef>
-#include <limits>
 
 namespace yqvmc {
   template <typename OP>
@@ -13,11 +12,11 @@ namespace yqvmc {
 
     CachedValue(Op& op, const value_type val = T())
     : m_op(op), m_value(val),
-    m_stamp(std::numeric_limits<std::size_t>::max()) {}
+    m_stamp(0) {}
 
     template <typename Conf>
     result_type measure(const Conf& conf, std::size_t stamp = 0) {
-      if (stamp == m_stamp)
+      if (stamp != 0 && stamp == m_stamp)
         return m_value;
       else {
         m_value = m_op.measure(conf);

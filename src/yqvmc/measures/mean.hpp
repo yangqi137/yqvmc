@@ -1,10 +1,11 @@
 #ifndef YQVMC_MEASURES_SIMPLE_MEAN_HPP
 #define YQVMC_MEASURES_SIMPLE_MEAN_HPP
 
-#include "impl_/mean.hpp"
+#include "../impl_/mean.hpp"
 
 namespace yqvmc {
-  template <typename OP, MEANACC = impl_::MeanAcc<typename OP::result_type> >
+  template <typename OP,
+  typename MEANACC = impl_::MeanAcc<typename OP::result_type> >
   class Mean {
   public:
     typedef OP Op;
@@ -14,19 +15,21 @@ namespace yqvmc {
 
     template <typename Conf>
     void measure(const Conf& conf, std::size_t stamp) {
-      m_mean(m_op.measure(conf, stamp));
-      m_counter++;
+      m_acc(m_op(conf, stamp));
     }
 
     result_type result() {
-      auto mean = m_mean.mean();
-      m_mean.reset();
+      auto mean = m_acc.mean();
+      m_acc.reset();
       return mean;
     }
 
   private:
     Op& m_op;
-    MeanAccumulator m_mean;
+    MeanAccumulator m_acc;
   };
+
+  template <typename Op>
+  Mean<Op> MakeMeanMeasure(Op& op) { return Mean<Op>(op); }
 }
 #endif

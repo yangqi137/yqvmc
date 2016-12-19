@@ -6,31 +6,31 @@
 
 namespace yqvmc {
   namespace impl_ {
-    template <typename T>
-    class MeanAndErrorAcc<T> {
+    template <typename T, typename TRAITS = MeanAndErrorTraits<T> >
+    class MeanAndErrorAcc {
     public:
       typedef T input_type;
+      typedef TRAITS Traits;
       typedef typename Traits::result_type result_type;
 
       MeanAndErrorAcc() {}
 
-      void operator(input_type x) {
+      void operator ()(input_type x) {
         m_mean(x);
         m_x2mean(Traits::square(x));
       }
 
       result_type mean() const { return m_mean.mean(); }
       result_type error() const {
-        result_type n = m_mean.count();
-        result_type xmean = m_mean.mean();
-        return Traits::standard_error(m_x2mean.mean(), xmean, n);
+        auto n = m_mean.count();
+        return Traits::standard_error(m_x2mean.mean(), m_mean.mean(), n);
       }
       std::size_t count() const { return m_mean.count(); }
-      void reset() { return m_mean.reset(); }
+      void reset() { m_mean.reset(); m_x2mean.reset(); }
 
     private:
-      Mean<result_type> m_mean;
-      Mean<result_type> m_x2mean;
+      MeanAcc<input_type, Traits> m_mean;
+      MeanAcc<input_type, Traits> m_x2mean;
     };
   }
 }

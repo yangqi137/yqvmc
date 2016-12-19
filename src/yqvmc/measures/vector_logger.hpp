@@ -15,7 +15,7 @@ namespace yqvmc {
 
     template <typename Conf>
     void measure(const Conf& conf, std::size_t stamp) {
-      m_data.push_back(m_op.measure(conf, stamp));
+      m_data.push_back(m_op(conf, stamp));
     }
     result_type result() const { return m_data; }
 
