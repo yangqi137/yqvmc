@@ -47,6 +47,23 @@ namespace yqvmc {
     return PlainObserver<M>(name, m);
   }
 
+  template <typename M>
+  class EmptyObserver {
+  public:
+    typedef M Measure;
+    EmptyObserver(Measure& measure) : m_measure(measure) {}
+
+    template <typename Conf>
+    void measure(const Conf& conf, std::size_t stamp) {
+      m_measure.measure(conf, stamp);
+    }
+
+    void closeBin(std::size_t iBin) {}
+
+  private:
+    Measure& m_measure;
+  };
+
 }
 
 #endif
