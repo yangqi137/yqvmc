@@ -64,6 +64,11 @@ namespace yqvmc {
     Measure& m_measure;
   };
 
+  template <class M>
+  EmptyObserver<M> MakeEmptyObserver(M& m) {
+    return EmptyObserver<M>(m);
+  }
+
 }
 
 #endif
