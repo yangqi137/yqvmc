@@ -11,7 +11,8 @@ class LocalUpdate {
 public:
   typedef typename Model::size_type size_type;
   LocalUpdate(const Model& model)
-  : m_model(model), m_vdist(0, model.size()-1), m_dist01(0., 1.) {}
+  : m_model(model), m_vdist(0, model.latticeSize()-1),
+    m_dist01(0., 1.) {}
 
   template <typename Conf, typename RG>
   void walk(Conf& conf, RG& rg) {
