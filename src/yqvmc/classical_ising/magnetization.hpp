@@ -10,7 +10,7 @@ namespace yqvmc { namespace ci {
     typedef double result_type;
 
     template <typename Conf>
-    result_type measure(const Conf& conf, std::size_t stamp = 0) {
+    result_type operator()(const Conf& conf, std::size_t stamp = 0) {
       result_type m = 0.;
       for (bool s : conf) m += (s ? +1. : -1.);
       return std::abs(m / conf.size());

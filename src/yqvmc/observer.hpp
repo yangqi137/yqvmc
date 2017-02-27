@@ -12,6 +12,7 @@ namespace yqvmc {
     typedef M Measure;
     typedef typename M::result_type input_type;
     typedef ACC Accumulator;
+    typedef typename Accumulator::result_type result_type;
 
     PlainObserver(std::string name, Measure& measure)
     : m_name(name), m_measure(measure) {}
@@ -35,6 +36,9 @@ namespace yqvmc {
                 << " +/- " << error
                 << std::endl;
     }
+
+    result_type mean() const { return m_acc.mean(); }
+    result_type error() const { return m_acc.error(); }
 
   private:
     std::string m_name;

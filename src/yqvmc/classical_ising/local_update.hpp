@@ -18,7 +18,7 @@ public:
   void walk(Conf& conf, RG& rg) {
     for (std::size_t i = 0; i < conf.size(); i++) { // Repeat N trails in one step
       auto v0 = m_vdist(rg);
-      auto de = model.localEnergyDiff(conf, v0);
+      auto de = m_model.localEnergyDiff(conf, v0);
 
       if (de < 0 || m_dist01(rg) < std::exp(-de)) //accepting
         conf[v0] = !conf[v0];
