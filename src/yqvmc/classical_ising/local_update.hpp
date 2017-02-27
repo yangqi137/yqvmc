@@ -29,6 +29,11 @@ private:
   std::uniform_int_distribution<size_type> m_vdist;
   std::uniform_real_distribution<> m_dist01;
 };
+
+template <typename M>
+LocalUpdate<M> MakeLocalUpdate(const M& m) {
+  return LocalUpdate<M>(m);
+}
 }}
 
 #endif
