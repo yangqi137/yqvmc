@@ -14,8 +14,9 @@ namespace yqvmc {
     typedef ACC Accumulator;
     typedef typename Accumulator::result_type result_type;
 
-    PlainObserver(std::string name, Measure& measure)
-    : m_name(name), m_measure(measure) {}
+    PlainObserver(std::string name, Measure& measure,
+                  std::ostream& sout = std::cout)
+    : m_name(name), m_measure(measure), m_sout(sout) {}
 
     template <typename Conf>
     void measure(const Conf& conf, std::size_t stamp) {
@@ -25,16 +26,16 @@ namespace yqvmc {
     void closeBin(std::size_t iBin) {
       auto result = m_measure.result();
       m_acc(result);
-      std::cout << m_name << ": " << result << std::endl;
+      m_sout << m_name << ": " << result << std::endl;
     }
 
     void report() const {
       auto mean = m_acc.mean();
       auto error = m_acc.error();
 
-      std::cout << m_name << " : " << mean
-                << " +/- " << error
-                << std::endl;
+      m_sout << m_name << " : " << mean
+             << " +/- " << error
+             << std::endl;
     }
 
     result_type mean() const { return m_acc.mean(); }
@@ -43,12 +44,13 @@ namespace yqvmc {
   private:
     std::string m_name;
     Measure& m_measure;
+    std::ostream& m_sout;
     Accumulator m_acc;
   };
 
   template <class M>
-  PlainObserver<M> MakePlainObserver(std::string name, M& m) {
-    return PlainObserver<M>(name, m);
+  PlainObserver<M> MakePlainObserver(std::string name, M& m, std::ostream& sout = std::cout) {
+    return PlainObserver<M>(name, m, sout);
   }
 
   template <typename M>
