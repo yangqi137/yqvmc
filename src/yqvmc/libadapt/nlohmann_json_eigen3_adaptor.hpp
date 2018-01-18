@@ -14,6 +14,20 @@ namespace nlohmann {
           j[i] = vec[i];
         }
       }
+
+      static void from_json(const json& j, Eigen::ArrayXd& vec) {
+        vec.resize(j.size());
+        for (unsigned i = 0; i < j.size(); i++) {
+          vec[i] = j[i];
+        }
+      }
+
+      static void to_json(json& j, const Eigen::ArrayXXd& vec) {
+      }
+
+      static void from_json(const json& j, Eigen::ArrayXXd& vec) {
+      }
+
     };
 }
 
