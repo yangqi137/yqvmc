@@ -9,7 +9,7 @@ namespace nlohmann {
     //};
     template <>
     struct adl_serializer<Eigen::ArrayXd> {
-      static void to_json(json& j, const Eigen::VectorXd& vec) {
+      static void to_json(json& j, const Eigen::ArrayXd& vec) {
         for (unsigned i = 0; i < vec.size(); i++) {
           j[i] = vec[i];
         }
@@ -21,6 +21,10 @@ namespace nlohmann {
           vec[i] = j[i];
         }
       }
+    };
+
+    template <>
+    struct adl_serializer<Eigen::MatrixXd> {
 
       static void to_json(json& js, const Eigen::MatrixXd& mat) {
         for (unsigned i = 0; i < mat.rows(); i++) {
