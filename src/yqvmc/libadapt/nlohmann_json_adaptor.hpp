@@ -1,7 +1,7 @@
 #ifndef YQVMC_NLOHMANN_JSON_ADAPTOR_HPP
 #define YQVMC_NLOHMANN_JSON_ADAPTOR_HPP
 
-#include <json.hpp>
+#include <nlohmann/json.hpp>
 #include "../engine.hpp"
 #include "../observer.hpp"
 
