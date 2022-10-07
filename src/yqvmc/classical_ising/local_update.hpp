@@ -11,14 +11,14 @@ class LocalUpdate {
 public:
   typedef typename Model::size_type size_type;
   LocalUpdate(const Model& model)
-  : m_model(model), m_vdist(0, model.latticeSize()-1),
+  : m_model(model), m_vdist(0, model.lattice_size()-1),
     m_dist01(0., 1.) {}
 
   template <typename Conf, typename RG>
   void walk(Conf& conf, RG& rg) {
     for (std::size_t i = 0; i < conf.size(); i++) { // Repeat N trails in one step
       auto v0 = m_vdist(rg);
-      auto de = m_model.localEnergyDiff(conf, v0);
+      auto de = m_model.local_energy_diff(conf, v0);
 
       if (de < 0 || m_dist01(rg) < std::exp(-de)) //accepting
         conf[v0] = !conf[v0];
