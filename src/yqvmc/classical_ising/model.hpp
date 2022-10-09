@@ -47,7 +47,7 @@ namespace yqvmc { namespace ci {
             for (auto edge : edges_of_vertex(v0)) {
                 auto vi = std::get<0>(edge);
                 int s = (conf[v0] == conf[vi]) ? 1 : -1;
-                de += 2. * s * K; // Flipping parallel spins increases energy.
+                de += 2. * s * m_K; // Flipping parallel spins increases energy.
             }
             return de;
         }
