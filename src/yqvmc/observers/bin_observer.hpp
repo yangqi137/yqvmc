@@ -23,7 +23,8 @@ namespace yqvmc {
     void closeBin(std::size_t iBin) {
       auto result = m_measure.result();
       m_data.push_back(result);
-      m_sout << m_name << ": " << result << std::endl;
+      m_sout << "Bin #" << iBin << " closed." << std::endl;
+      //m_sout << m_name << ": " << result << std::endl;
     }
 
     template <typename T>

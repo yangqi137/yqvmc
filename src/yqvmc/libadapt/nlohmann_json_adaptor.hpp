@@ -22,11 +22,6 @@ namespace yqvmc {
       return RG();
   }
 
-  template <class M, class A>
-  void to_json(nlohmann::json& j, const PlainObserver<M, A>& observer) {
-    j["mean"] = observer.mean();
-    j["error"] = observer.error();
-  }
 }
 
 #endif
